@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
 
     public class ClassQueryData
@@ -38,6 +39,22 @@
             }
 
             return InheritsFromInternal(classBaseType, type);
+        }
+
+        internal bool ImplementsInterface(string interfaceName)
+        {
+            if (this.classSymbol.Interfaces != null)
+            {
+                if (this.classSymbol.Interfaces.Any())
+                {
+                    if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceName) != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

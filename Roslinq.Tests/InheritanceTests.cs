@@ -36,5 +36,15 @@
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
         }
+
+        [Test]
+        public void QueryClassesShouldReturnClassImplementingInterface()
+        {
+            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
+            var classes = codeQuery.Classes.ImplementingInterface("IController").Execute();
+            Assert.IsNotNull(classes);
+            Assert.IsTrue(classes.Any());
+            Assert.IsNotNull(classes.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.AdminController"));
+        }
     }
 }

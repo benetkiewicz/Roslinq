@@ -70,5 +70,25 @@
                 }
             }
         }
+
+        public ClassQuery ImplementingInterface(string icontroller)
+        {
+            if (this.classes == null)
+            {
+                this.classes = GetClasses().ToList();
+            }
+
+            IList<ClassQueryData> result = new List<ClassQueryData>();
+            foreach (var @class in this.classes)
+            {
+                if (@class.ImplementsInterface(icontroller))
+                {
+                    result.Add(@class);
+                }
+            }
+
+            this.classes = result;
+            return this;
+        }
     }
 }
