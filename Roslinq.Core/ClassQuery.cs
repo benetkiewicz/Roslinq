@@ -1,43 +1,74 @@
 ﻿namespace Roslinq.Core
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class ClassQuery
     {
-        private INamedTypeSymbol classSymbol;
+        private readonly Project parentProject;
 
-        public ClassQuery(INamedTypeSymbol clasSymbol)
+        public ClassQuery(Project parentProject)
         {
-            this.classSymbol = clasSymbol;
+            this.parentProject = parentProject;
         }
 
-        public string ClassName
-        {
-            get { return this.classSymbol.ToString(); }
-        }
+        private IList<ClassQueryData> classes;
 
-        internal bool InheritsFrom(Type type)
+        public ClassQuery InheritingFrom(Type type)
         {
-            return this.InheritsFromInternal(this.classSymbol, type);
-        }
-
-        private bool InheritsFromInternal(INamedTypeSymbol queriedType, Type type)
-        {
-            var classBaseType = queriedType.BaseType;
-            if (classBaseType.ToString() == type.ToString())
+            if (this.classes == null)
             {
-                return true;
+                this.classes = GetClasses().ToList();
             }
 
-            if (classBaseType.ToString() == "object")
+            var result = new List<ClassQueryData>();
+            foreach (var @class in this.classes)
             {
-                return false;
+                if (@class.InheritsFrom(type))
+                {
+                    result.Add(@class);
+                }
             }
 
-            return InheritsFromInternal(classBaseType, type);
+            this.classes = result;
+            return this;
+        }
+
+        public IEnumerable<string> Execute()
+        {
+            if (this.classes == null)
+            {
+                this.classes = GetClasses().ToList();
+            }
+
+            return this.classes.Select(c => c.ClassName);
+        }
+
+        private IEnumerable<ClassQueryData> GetClasses()
+        {
+            foreach (var namedTypeSymbol in GetClassSymbols())
+            {
+                yield return new ClassQueryData(namedTypeSymbol);
+            }
+        }
+
+        private IEnumerable<INamedTypeSymbol> GetClassSymbols()
+        {
+            this.classes = new List<ClassQueryData>();
+            foreach (var document in this.parentProject.Documents)
+            {
+                var model = document.GetSemanticModelAsync().Result;
+                var syntaxTree = model.SyntaxTree;
+                var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
+                foreach (var classSyntaxNode in classSyntaxNodes)
+                {
+                    var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
+                    yield return classSymbol;
+                }
+            }
         }
     }
 }

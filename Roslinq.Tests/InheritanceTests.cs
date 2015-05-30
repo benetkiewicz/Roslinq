@@ -12,7 +12,7 @@
         public void DirectClassInheritanceShouldBeRecognized()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.Classes().InheritingFrom(typeof(Controller)).Execute();
+            var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
             Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.HomeController"));
@@ -22,7 +22,7 @@
         public void IndirectClassInheritanceShouldBeRecognized()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.Classes().InheritingFrom(typeof(Controller)).Execute();
+            var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
             Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.AdminReportingController"));
@@ -32,7 +32,7 @@
         public void QueryClassesShouldReturnAllClasses()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes().Execute();
+            var classes = codeQuery.Classes.Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
         }

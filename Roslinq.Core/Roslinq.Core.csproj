@@ -121,8 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassQuery.cs" />
+    <Compile Include="ClassQueryData.cs" />
     <Compile Include="ProjectQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReferencesQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
