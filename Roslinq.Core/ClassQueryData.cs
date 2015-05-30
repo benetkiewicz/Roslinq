@@ -28,12 +28,12 @@
         private bool InheritsFromInternal(INamedTypeSymbol queriedType, Type type)
         {
             var classBaseType = queriedType.BaseType;
-            if (classBaseType.ToString() == type.ToString())
+            if (classBaseType.Name == type.Name)
             {
                 return true;
             }
 
-            if (classBaseType.ToString() == "object")
+            if (classBaseType.Name == typeof(object).Name)
             {
                 return false;
             }
