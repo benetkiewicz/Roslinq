@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roslinq.Core", "Roslinq.Core\Roslinq.Core.csproj", "{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roslinq.Tests", "Roslinq.Tests\Roslinq.Tests.csproj", "{66F4E61F-6616-414A-A57F-39858B00E23C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslinqTestTarget", "RoslinqTestTarget\RoslinqTestTarget.csproj", "{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F4E61F-6616-414A-A57F-39858B00E23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F4E61F-6616-414A-A57F-39858B00E23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F4E61F-6616-414A-A57F-39858B00E23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F4E61F-6616-414A-A57F-39858B00E23C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
