@@ -17,6 +17,14 @@
 
         private IList<ClassQueryData> classes;
 
+        public MethodQuery Methods
+        {
+            get
+            {
+                return new MethodQuery(this);
+            }
+        }
+
         public ClassQuery InheritingFrom(Type type)
         {
             if (this.classes == null)
@@ -37,14 +45,14 @@
             return this;
         }
 
-        public IEnumerable<string> Execute()
+        public IEnumerable<ClassQueryData> Execute()
         {
             if (this.classes == null)
             {
                 this.classes = GetClasses().ToList();
             }
 
-            return this.classes.Select(c => c.ClassName);
+            return this.classes;
         }
 
         private IEnumerable<ClassQueryData> GetClasses()
@@ -71,7 +79,7 @@
             }
         }
 
-        public ClassQuery ImplementingInterface(string icontroller)
+        public ClassQuery ImplementingInterface(string interfaceName)
         {
             if (this.classes == null)
             {
@@ -81,7 +89,7 @@
             IList<ClassQueryData> result = new List<ClassQueryData>();
             foreach (var @class in this.classes)
             {
-                if (@class.ImplementsInterface(icontroller))
+                if (@class.ImplementsInterface(interfaceName))
                 {
                     result.Add(@class);
                 }

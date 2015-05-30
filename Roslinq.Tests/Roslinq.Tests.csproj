@@ -150,6 +150,7 @@
   <ItemGroup>
     <Compile Include="ClassQueryInfoTests.cs" />
     <Compile Include="InheritanceTests.cs" />
+    <Compile Include="MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

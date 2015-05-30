@@ -15,7 +15,7 @@
             var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.HomeController"));
+            Assert.IsNotNull(controllers.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.HomeController"));
         }
 
         [Test]
@@ -25,7 +25,7 @@
             var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.AdminReportingController"));
+            Assert.IsNotNull(controllers.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminReportingController"));
         }
 
         [Test]
@@ -44,7 +44,7 @@
             var classes = codeQuery.Classes.ImplementingInterface("IController").Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
-            Assert.IsNotNull(classes.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.AdminController"));
+            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminController"));
         }
     }
 }

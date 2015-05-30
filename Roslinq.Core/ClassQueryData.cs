@@ -25,6 +25,18 @@
             return this.InheritsFromInternal(this.classSymbol, type);
         }
 
+        internal IEnumerable<IMethodSymbol> Methods
+        {
+            get
+            {
+                var x = classSymbol.GetMembers().Where(m => m.Kind == SymbolKind.Method);
+                foreach (var source in x.ToList())
+                {
+                    yield return (IMethodSymbol)source;
+                }
+            }
+        }
+
         private bool InheritsFromInternal(INamedTypeSymbol queriedType, Type type)
         {
             var classBaseType = queriedType.BaseType;
