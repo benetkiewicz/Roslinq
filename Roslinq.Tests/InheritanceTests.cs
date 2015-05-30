@@ -12,27 +12,27 @@
         public void DirectClassInheritanceShouldBeRecognized()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.ClassesInheritingFrom(typeof(Controller));
+            var controllers = codeQuery.Classes().InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "HomeController"));
+            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.HomeController"));
         }
 
         [Test]
         public void IndirectClassInheritanceShouldBeRecognized()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.ClassesInheritingFrom(typeof(Controller));
+            var controllers = codeQuery.Classes().InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "AdminReportingController"));
+            Assert.IsNotNull(controllers.FirstOrDefault(x => x == "RoslinqTestTarget.Controllers.AdminReportingController"));
         }
 
         [Test]
         public void QueryClassesShouldReturnAllClasses()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes;
+            var classes = codeQuery.Classes().Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
         }

@@ -11,7 +11,7 @@
     public class ProjectQuery
     {
         private readonly Project project;
-        private IList<INamedTypeSymbol> classes;
+        private IList<ClassQuery> classes;
 
         public ProjectQuery(string projectPath)
         {
@@ -19,56 +19,68 @@
             this.project = workspace.OpenProjectAsync(projectPath).Result;
         }
 
-        public IEnumerable<INamedTypeSymbol> Classes
+        public ProjectQuery Classes()
         {
-            get
+            if (this.classes == null)
             {
-                if (this.classes == null)
-                {
-                    this.classes = new List<INamedTypeSymbol>();
-                    foreach (var document in project.Documents)
-                    {
-                        var model = document.GetSemanticModelAsync().Result;
-                        var syntaxTree = model.SyntaxTree;
-                        var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
-                        foreach (var classSyntaxNode in classSyntaxNodes)
-                        {
-                            var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
-                            this.classes.Add(classSymbol);
-                        }
-                    }
-                }
-
-                return this.classes;
+                this.classes = GetClasses().ToList();
             }
+
+            return this;
         }
 
-        public IEnumerable<string> ClassesInheritingFrom(Type type)
+        public ProjectQuery InheritingFrom(Type type)
         {
-            foreach (var @class in Classes)
+            if (this.classes == null)
             {
-                if (ProjectQuery.DirectlyOrIndirectlyInheritsFrom(@class, type.ToString()))
+                this.classes = GetClasses().ToList();
+            }
+
+            var result = new List<ClassQuery>();
+            foreach (var @class in this.classes)
+            {
+                if (@class.InheritsFrom(type))
                 {
-                    yield return @class.Name;
+                    result.Add(@class);
                 }
             }
+
+            this.classes = result;
+            return this;
         }
 
-        public static bool DirectlyOrIndirectlyInheritsFrom(INamedTypeSymbol queriedType, string typeName)
+        public IEnumerable<string> Execute()
         {
-            var classBaseType = queriedType.BaseType;
-            if (classBaseType.ToString() == typeName)
+            if (this.classes == null)
             {
-                return true;
+                this.classes = GetClasses().ToList();
             }
 
-            if (classBaseType.ToString() == "object")
-            {
-                return false;
-            }
+            return this.classes.Select(c => c.ClassName);
+        }
 
-            return DirectlyOrIndirectlyInheritsFrom(classBaseType, typeName);
+        private IEnumerable<ClassQuery> GetClasses()
+        {
+            foreach (var namedTypeSymbol in GetClassSymbols())
+            {
+                yield return new ClassQuery(namedTypeSymbol);
+            }
+        } 
+
+        private IEnumerable<INamedTypeSymbol> GetClassSymbols()
+        {
+            this.classes = new List<ClassQuery>();
+            foreach (var document in project.Documents)
+            {
+                var model = document.GetSemanticModelAsync().Result;
+                var syntaxTree = model.SyntaxTree;
+                var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
+                foreach (var classSyntaxNode in classSyntaxNodes)
+                {
+                    var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
+                    yield return classSymbol;
+                }
+            }
         }
     }
-
 }
