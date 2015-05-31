@@ -98,5 +98,30 @@
             this.classes = result;
             return this;
         }
+
+        public ClassQuery WithAttribute(Type type)
+        {
+            //if (!(type is Attribute))
+            //{
+            //    throw new ArgumentException("Only attribute types allowed", "type");
+            //}
+
+            if (this.classes == null)
+            {
+                this.classes = GetClasses().ToList();
+            }
+
+            IList<ClassQueryData> result = new List<ClassQueryData>();
+            foreach (var @class in this.classes)
+            {
+                if (@class.HasAttributeApplied(type))
+                {
+                    result.Add(@class);
+                }
+            }
+
+            this.classes = result;
+            return this;
+        }
     }
 }

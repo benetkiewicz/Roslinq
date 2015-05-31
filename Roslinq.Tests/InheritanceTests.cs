@@ -1,5 +1,6 @@
 ﻿namespace Roslinq.Tests
 {
+    using System;
     using System.Linq;
     using System.Web.Mvc;
     using Core;
@@ -45,6 +46,16 @@
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
             Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminController"));
+        }
+
+        [Test]
+        public void QueryClassesShouldReturnClassWithAttributeApplied()
+        {
+            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
+            var classes = codeQuery.Classes.WithAttribute(typeof(SerializableAttribute)).Execute();
+            Assert.IsNotNull(classes);
+            Assert.IsTrue(classes.Any());
+            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Models.SerializableModel"));
         }
     }
 }

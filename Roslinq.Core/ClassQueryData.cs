@@ -68,5 +68,19 @@
 
             return false;
         }
+
+        internal bool HasAttributeApplied(Type type)
+        {
+            var classAppliedAttributes = this.classSymbol.GetAttributes();
+            foreach (var methodAppliedAttribute in classAppliedAttributes)
+            {
+                if (methodAppliedAttribute.AttributeClass.Name == type.Name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
