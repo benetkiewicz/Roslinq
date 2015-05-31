@@ -73,5 +73,27 @@ namespace Roslinq.Tests
             var classQueryData = new ClassQueryData(barClassSymbolInfo);
             Assert.IsTrue(classQueryData.HasAttributeApplied(typeof(SerializableAttribute)));
         }
+
+        [Test]
+        public void HasModifier()
+        {
+            string sourceCode = @"using System; class Bar { private sealed class Foo { } } ";
+
+            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
+            if (compilation.GetDeclarationDiagnostics().Any())
+            {
+                Assert.Fail("compile errors: " + compilation.GetDeclarationDiagnostics()[0].GetMessage());
+            }
+
+            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var fooClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[1];
+            var fooClassSymbol = semanticModel.GetDeclaredSymbol(fooClassSyntax);
+            var classQueryData = new ClassQueryData(fooClassSymbol);
+            Assert.IsTrue(classQueryData.HasModifier(Modifiers.Class.Private));
+            Assert.IsFalse(classQueryData.HasModifier(Modifiers.Class.Protected));
+        }
     }
 }

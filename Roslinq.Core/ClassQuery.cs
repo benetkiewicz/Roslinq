@@ -123,5 +123,30 @@
             this.classes = result;
             return this;
         }
+
+        public ClassQuery WithModifier(int modifier)
+        {
+            //if (!(type is Attribute))
+            //{
+            //    throw new ArgumentException("Only attribute types allowed", "type");
+            //}
+
+            if (this.classes == null)
+            {
+                this.classes = GetClasses().ToList();
+            }
+
+            IList<ClassQueryData> result = new List<ClassQueryData>();
+            foreach (var @class in this.classes)
+            {
+                if (@class.HasModifier(modifier))
+                {
+                    result.Add(@class);
+                }
+            }
+
+            this.classes = result;
+            return this;
+        }
     }
 }

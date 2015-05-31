@@ -57,5 +57,15 @@
             Assert.IsTrue(classes.Any());
             Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Models.SerializableModel"));
         }
+
+        [Test]
+        public void QueryClassesShouldReturnClassWithInternalModifier()
+        {
+            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
+            var classes = codeQuery.Classes.WithModifier(Modifiers.Class.Internal).Execute();
+            Assert.IsNotNull(classes);
+            Assert.IsTrue(classes.Any());
+            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.AppCode.InternalLogic"));
+        }
     }
 }

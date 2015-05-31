@@ -124,6 +124,7 @@
     <Compile Include="ClassQueryData.cs" />
     <Compile Include="MethodQuery.cs" />
     <Compile Include="MethodQueryData.cs" />
+    <Compile Include="Modifiers.cs" />
     <Compile Include="ProjectQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferencesQuery.cs" />

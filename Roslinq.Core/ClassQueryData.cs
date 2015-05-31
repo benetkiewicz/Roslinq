@@ -82,5 +82,27 @@
 
             return false;
         }
+
+        public bool HasModifier(int modifier)
+        {
+            switch (modifier)
+            {
+                case Modifiers.Class.Private:
+                    return this.classSymbol.DeclaredAccessibility == Accessibility.Private;
+                case Modifiers.Class.Protected:
+                    return this.classSymbol.DeclaredAccessibility == Accessibility.Protected;
+                case Modifiers.Class.Public:
+                    return this.classSymbol.DeclaredAccessibility == Accessibility.Public;
+                case Modifiers.Class.Internal:
+                    return this.classSymbol.DeclaredAccessibility == Accessibility.Internal;
+                case Modifiers.Class.Static:
+                    return this.classSymbol.IsStatic;
+                case Modifiers.Class.Sealed:
+                    return this.classSymbol.IsSealed;
+                case Modifiers.Class.Abstract:
+                    return this.classSymbol.IsAbstract;
+                default: throw new NotImplementedException(string.Format("Modifier {0} is unknown", modifier));
+            }
+        }
     }
 }
