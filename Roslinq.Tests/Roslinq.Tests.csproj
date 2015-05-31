@@ -148,9 +148,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassQueryInfoTests.cs" />
+    <Compile Include="ClassQueryDataTests.cs" />
     <Compile Include="InheritanceTests.cs" />
-    <Compile Include="MethodQueryInfoTests.cs" />
+    <Compile Include="MethodQueryDataTests.cs" />
     <Compile Include="MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

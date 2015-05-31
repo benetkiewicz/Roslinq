@@ -9,7 +9,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class MethodQueryInfoTests
+    public class MethodQueryDataTests
     {
         [Test]
         public void MethodExecuteTest()
@@ -60,6 +60,27 @@
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
             Assert.True(methodSymbolInfo.ReturnsType(typeof(void)));
+        }
+
+        [Test]
+        public void HasAttributeAppliedTest()
+        {
+            string sourceCode = @"using System; class Bar { [Obsolete] public void Foo() { } }";
+
+            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
+            if (compilation.GetDeclarationDiagnostics().Any())
+            {
+                Assert.Fail("compile errors");
+            }
+
+            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
+            var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
+            var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
+            Assert.True(methodSymbolInfo.HasAttributeApplied(typeof(ObsoleteAttribute)));
         }
     }
 }

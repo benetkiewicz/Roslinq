@@ -1,6 +1,7 @@
 ﻿namespace Roslinq.Core
 {
     using System;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
 
     public class MethodQueryData
@@ -20,6 +21,20 @@
         internal bool ReturnsType(Type type)
         {
             return this.methodSymbol.ReturnType.Name == type.Name;
+        }
+
+        public bool HasAttributeApplied(Type type)
+        {
+            var methodAppliedAttributes = this.methodSymbol.GetAttributes();
+            foreach (var methodAppliedAttribute in methodAppliedAttributes)
+            {
+                if (methodAppliedAttribute.AttributeClass.Name == type.Name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

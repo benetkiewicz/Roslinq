@@ -13,7 +13,7 @@ namespace Roslinq.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class ClassQueryInfoTests
+    public class ClassQueryDataTests
     {
         [Test]
         public void InheritsFromTest()
