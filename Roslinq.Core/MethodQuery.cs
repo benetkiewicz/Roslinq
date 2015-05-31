@@ -1,7 +1,6 @@
 ﻿namespace Roslinq.Core
 {
     using System.Collections.Generic;
-    using Microsoft.CodeAnalysis;
 
     public class MethodQuery
     {
@@ -30,21 +29,6 @@
             }
 
             return this.methods;
-        }
-    }
-
-    public class MethodQueryData
-    {
-        private IMethodSymbol methodSymbol;
-
-        public MethodQueryData(IMethodSymbol methodSymbol)
-        {
-            this.methodSymbol = methodSymbol;
-        }
-
-        public string Name
-        {
-            get { return this.methodSymbol.Name; }
         }
     }
 }
