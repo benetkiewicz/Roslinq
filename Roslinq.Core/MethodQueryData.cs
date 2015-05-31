@@ -6,7 +6,7 @@
 
     public class MethodQueryData
     {
-        private IMethodSymbol methodSymbol;
+        private readonly IMethodSymbol methodSymbol;
 
         public MethodQueryData(IMethodSymbol methodSymbol)
         {
@@ -23,7 +23,7 @@
             return this.methodSymbol.ReturnType.Name == type.Name;
         }
 
-        public bool HasAttributeApplied(Type type)
+        internal bool HasAttributeApplied(Type type)
         {
             var methodAppliedAttributes = this.methodSymbol.GetAttributes();
             foreach (var methodAppliedAttribute in methodAppliedAttributes)
@@ -37,7 +37,7 @@
             return false;
         }
 
-        public bool HasParameterType(Type parameterType)
+        internal bool HasParameterType(Type parameterType)
         {
             if (!this.methodSymbol.Parameters.Any())
             {
@@ -64,7 +64,7 @@
             return false;
         }
 
-        public bool HasModifier(int modifier)
+        internal bool HasModifier(int modifier)
         {
             switch (modifier)
             {

@@ -101,10 +101,10 @@
 
         public ClassQuery WithAttribute(Type type)
         {
-            //if (!(type is Attribute))
-            //{
-            //    throw new ArgumentException("Only attribute types allowed", "type");
-            //}
+            if (type.BaseType != typeof(Attribute))
+            {
+                throw new ArgumentException("Only attribute types allowed", "type");
+            }
 
             if (this.classes == null)
             {
@@ -126,11 +126,6 @@
 
         public ClassQuery WithModifier(int modifier)
         {
-            //if (!(type is Attribute))
-            //{
-            //    throw new ArgumentException("Only attribute types allowed", "type");
-            //}
-
             if (this.classes == null)
             {
                 this.classes = GetClasses().ToList();

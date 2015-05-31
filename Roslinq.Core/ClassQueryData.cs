@@ -22,7 +22,7 @@
 
         internal bool InheritsFrom(Type type)
         {
-            return this.InheritsFromInternal(this.classSymbol, type);
+            return InheritanceHelper.InheritsFrom(this.classSymbol, type);
         }
 
         internal IEnumerable<IMethodSymbol> Methods
@@ -36,23 +36,6 @@
                 }
             }
         }
-
-        private bool InheritsFromInternal(INamedTypeSymbol queriedType, Type type)
-        {
-            var classBaseType = queriedType.BaseType;
-            if (classBaseType.Name == type.Name)
-            {
-                return true;
-            }
-
-            if (classBaseType.Name == typeof(object).Name)
-            {
-                return false;
-            }
-
-            return InheritsFromInternal(classBaseType, type);
-        }
-
         internal bool ImplementsInterface(string interfaceName)
         {
             if (this.classSymbol.Interfaces != null)
@@ -83,7 +66,7 @@
             return false;
         }
 
-        public bool HasModifier(int modifier)
+        internal bool HasModifier(int modifier)
         {
             switch (modifier)
             {

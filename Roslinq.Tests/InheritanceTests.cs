@@ -5,67 +5,27 @@
     using System.Web.Mvc;
     using Core;
     using NUnit.Framework;
+    using RoslinqTestTarget.Controllers;
 
     [TestFixture]
     public class InheritanceTests
     {
         [Test]
-        public void DirectClassInheritanceShouldBeRecognized()
+        public void DirectInheritanceTest()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
-            Assert.IsNotNull(controllers);
-            Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.HomeController"));
+            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(int), typeof(object)));
         }
 
         [Test]
-        public void IndirectClassInheritanceShouldBeRecognized()
+        public void IndirectInheritanceTest()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
-            Assert.IsNotNull(controllers);
-            Assert.IsTrue(controllers.Any());
-            Assert.IsNotNull(controllers.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminReportingController"));
+            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(AdminReportingController), typeof(Controller)));
         }
 
         [Test]
-        public void QueryClassesShouldReturnAllClasses()
+        public void ObjectInheritanceTest()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes.Execute();
-            Assert.IsNotNull(classes);
-            Assert.IsTrue(classes.Any());
-        }
-
-        [Test]
-        public void QueryClassesShouldReturnClassImplementingInterface()
-        {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes.ImplementingInterface("IController").Execute();
-            Assert.IsNotNull(classes);
-            Assert.IsTrue(classes.Any());
-            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminController"));
-        }
-
-        [Test]
-        public void QueryClassesShouldReturnClassWithAttributeApplied()
-        {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes.WithAttribute(typeof(SerializableAttribute)).Execute();
-            Assert.IsNotNull(classes);
-            Assert.IsTrue(classes.Any());
-            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Models.SerializableModel"));
-        }
-
-        [Test]
-        public void QueryClassesShouldReturnClassWithInternalModifier()
-        {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes.WithModifier(Modifiers.Class.Internal).Execute();
-            Assert.IsNotNull(classes);
-            Assert.IsTrue(classes.Any());
-            Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.AppCode.InternalLogic"));
+            Assert.IsFalse(InheritanceHelper.InheritsFrom(typeof(object), typeof(object)));
         }
     }
 }

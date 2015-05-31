@@ -122,6 +122,7 @@
   <ItemGroup>
     <Compile Include="ClassQuery.cs" />
     <Compile Include="ClassQueryData.cs" />
+    <Compile Include="InheritanceHelper.cs" />
     <Compile Include="MethodQuery.cs" />
     <Compile Include="MethodQueryData.cs" />
     <Compile Include="Modifiers.cs" />
