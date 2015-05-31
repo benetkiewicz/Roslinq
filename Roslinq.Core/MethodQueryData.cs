@@ -1,5 +1,6 @@
 ﻿namespace Roslinq.Core
 {
+    using System;
     using Microsoft.CodeAnalysis;
 
     public class MethodQueryData
@@ -11,9 +12,14 @@
             this.methodSymbol = methodSymbol;
         }
 
-        public string Name
+        public string MethodName
         {
             get { return this.methodSymbol.Name; }
+        }
+
+        internal bool ReturnsType(Type type)
+        {
+            return this.methodSymbol.ReturnType.Name == type.Name;
         }
     }
 }

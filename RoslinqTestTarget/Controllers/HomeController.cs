@@ -26,5 +26,10 @@ namespace RoslinqTestTarget.Controllers
 
             return View();
         }
+
+        public PartialViewResult Partial()
+        {
+            return Partial();
+        }
     }
 }
