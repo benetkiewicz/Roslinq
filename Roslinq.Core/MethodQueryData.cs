@@ -36,5 +36,32 @@
 
             return false;
         }
+
+        public bool HasParameterType(Type parameterType)
+        {
+            if (!this.methodSymbol.Parameters.Any())
+            {
+                return false;
+            }
+
+            foreach (var parameter in this.methodSymbol.Parameters)
+            {
+                if (parameter.Type.Name == parameterType.Name)
+                {
+                    return true;
+                }
+
+                if (parameter.IsParams)
+                {
+                    var arrayType = (IArrayTypeSymbol)parameter.Type;
+                    if (arrayType.ElementType.Name == parameterType.Name)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

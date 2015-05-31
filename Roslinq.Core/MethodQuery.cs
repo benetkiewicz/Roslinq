@@ -60,5 +60,34 @@
 
             return this.methods;
         }
+
+        public MethodQuery WithParameterType(Type parameterType)
+        {
+            if (this.methods == null)
+            {
+                this.methods = new List<MethodQueryData>();
+                foreach (var classQueryData in parentClasses.Execute())
+                {
+                    foreach (var methodSymbol in classQueryData.Methods)
+                    {
+                        var methodQueryData = new MethodQueryData(methodSymbol);
+                        this.methods.Add(methodQueryData);
+                    }
+
+                }
+            }
+
+            var result = new List<MethodQueryData>();
+            foreach (var methodQueryData in this.methods)
+            {
+                if (methodQueryData.HasParameterType(parameterType))
+                {
+                    result.Add(methodQueryData);
+                }
+            }
+
+            this.methods = result;
+            return this;
+        }
     }
 }

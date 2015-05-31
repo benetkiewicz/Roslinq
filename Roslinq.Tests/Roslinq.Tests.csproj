@@ -162,6 +162,10 @@
       <Project>{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}</Project>
       <Name>Roslinq.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RoslinqTestTarget\RoslinqTestTarget.csproj">
+      <Project>{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}</Project>
+      <Name>RoslinqTestTarget</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0-rc2\tools\analyzers\C#\Microsoft.CodeAnalysis.Analyzers.dll" />
