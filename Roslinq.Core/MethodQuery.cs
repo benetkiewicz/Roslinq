@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class MethodQuery
     {
@@ -13,110 +14,56 @@
             this.parentClasses = parentClasses;
         }
 
-        public MethodQuery ReturningType(Type type)
-        {
-            if (this.methods == null)
-            {
-                this.methods = new List<MethodQueryData>();
-                foreach (var classQueryData in parentClasses.Execute())
-                {
-                    foreach (var methodSymbol in classQueryData.Methods)
-                    {
-                        var methodQueryData = new MethodQueryData(methodSymbol);
-                        this.methods.Add(methodQueryData);
-                    }
-
-                }
-            }
-
-            var result  = new List<MethodQueryData>();
-            foreach (var methodQueryData in this.methods)
-            {
-                if (methodQueryData.ReturnsType(type))
-                {
-                    result.Add(methodQueryData);
-                }
-            }
-
-            this.methods = result;
-            return this;
-        }
-
         public IList<MethodQueryData> Execute()
         {
-            if (this.methods == null)
-            {
-                this.methods = new List<MethodQueryData>();
-                foreach (var classQueryData in parentClasses.Execute())
-                {
-                    foreach (var methodSymbol in classQueryData.Methods)
-                    {
-                        var methodQueryData = new MethodQueryData(methodSymbol);
-                        this.methods.Add(methodQueryData);
-                    }
-                    
-                }
-            }
-
+            EnsureMethodsExist();
             return this.methods;
+        }
+
+        public MethodQuery ReturningType(Type type)
+        {
+            EnsureMethodsExist();
+            Filter(x => x.ReturnsType(type));
+            return this;
         }
 
         public MethodQuery WithParameterType(Type parameterType)
         {
-            if (this.methods == null)
-            {
-                this.methods = new List<MethodQueryData>();
-                foreach (var classQueryData in parentClasses.Execute())
-                {
-                    foreach (var methodSymbol in classQueryData.Methods)
-                    {
-                        var methodQueryData = new MethodQueryData(methodSymbol);
-                        this.methods.Add(methodQueryData);
-                    }
-
-                }
-            }
-
-            var result = new List<MethodQueryData>();
-            foreach (var methodQueryData in this.methods)
-            {
-                if (methodQueryData.HasParameterType(parameterType))
-                {
-                    result.Add(methodQueryData);
-                }
-            }
-
-            this.methods = result;
+            EnsureMethodsExist();
+            this.Filter(x => x.HasParameterType(parameterType));
             return this;
         }
 
         public MethodQuery WithModifier(int modifier)
         {
+            EnsureMethodsExist();
+            this.Filter(x => x.HasModifier(modifier));
+            return this;
+        }
+
+        private void Filter(Func<MethodQueryData, bool> predicate)
+        {
+            var result = this.methods.Where(predicate).ToList();
+            this.methods = result;
+        }
+
+        private void EnsureMethodsExist()
+        {
             if (this.methods == null)
             {
-                this.methods = new List<MethodQueryData>();
-                foreach (var classQueryData in parentClasses.Execute())
-                {
-                    foreach (var methodSymbol in classQueryData.Methods)
-                    {
-                        var methodQueryData = new MethodQueryData(methodSymbol);
-                        this.methods.Add(methodQueryData);
-                    }
-
-                }
+                this.methods = GetMethods().ToList();
             }
+        }
 
-            var result = new List<MethodQueryData>();
-            foreach (var methodQueryData in this.methods)
+        private IEnumerable<MethodQueryData> GetMethods()
+        {
+            foreach (var classQueryData in parentClasses.Execute())
             {
-                if (methodQueryData.HasModifier(modifier))
+                foreach (var methodSymbol in classQueryData.Methods)
                 {
-                    result.Add(methodQueryData);
+                    yield return new MethodQueryData(methodSymbol);
                 }
             }
-
-            this.methods = result;
-            return this;
         }
     }
 }

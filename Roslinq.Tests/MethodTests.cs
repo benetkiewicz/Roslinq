@@ -47,7 +47,7 @@
                 .WithModifier(Modifiers.Method.Private)
                 .Execute();
             Assert.IsNotNull(methods);
-            Assert.AreEqual(1, methods.Count);
+            Assert.AreEqual(1, methods.Count());
             Assert.IsNotNull(methods.FirstOrDefault(x => x.MethodName == "MethodB"));
         }
     }

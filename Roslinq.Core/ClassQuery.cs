@@ -9,13 +9,12 @@
     public class ClassQuery
     {
         private readonly Project parentProject;
+        private IList<ClassQueryData> classes;
 
         public ClassQuery(Project parentProject)
         {
             this.parentProject = parentProject;
         }
-
-        private IList<ClassQueryData> classes;
 
         public MethodQuery Methods
         {
@@ -25,34 +24,57 @@
             }
         }
 
+        public IList<ClassQueryData> Execute()
+        {
+            EnsureClassesExist();
+            return this.classes;
+        }
+
         public ClassQuery InheritingFrom(Type type)
         {
-            if (this.classes == null)
-            {
-                this.classes = GetClasses().ToList();
-            }
-
-            var result = new List<ClassQueryData>();
-            foreach (var @class in this.classes)
-            {
-                if (@class.InheritsFrom(type))
-                {
-                    result.Add(@class);
-                }
-            }
-
-            this.classes = result;
+            EnsureClassesExist();
+            this.Filter(x => x.InheritsFrom(type));
             return this;
         }
 
-        public IEnumerable<ClassQueryData> Execute()
+        public ClassQuery ImplementingInterface(string interfaceName)
+        {
+            EnsureClassesExist();
+            this.Filter(x => x.ImplementsInterface(interfaceName));
+            return this;
+        }
+
+        public ClassQuery WithAttribute(Type type)
+        {
+            if (!InheritanceHelper.InheritsFrom(type, typeof(Attribute)))
+            {
+                throw new ArgumentException("Only attribute types allowed", "type");
+            }
+
+            EnsureClassesExist();
+            this.Filter(x => x.HasAttributeApplied(type));
+            return this;
+        }
+
+        public ClassQuery WithModifier(int modifier)
+        {
+            EnsureClassesExist();
+            this.Filter(x => x.HasModifier(modifier));
+            return this;
+        }
+
+        private void Filter(Func<ClassQueryData, bool> predicate)
+        {
+            var result = this.classes.Where(predicate).ToList();
+            this.classes = result;
+        }
+
+        private void EnsureClassesExist()
         {
             if (this.classes == null)
             {
                 this.classes = GetClasses().ToList();
             }
-
-            return this.classes;
         }
 
         private IEnumerable<ClassQueryData> GetClasses()
@@ -77,71 +99,6 @@
                     yield return classSymbol;
                 }
             }
-        }
-
-        public ClassQuery ImplementingInterface(string interfaceName)
-        {
-            if (this.classes == null)
-            {
-                this.classes = GetClasses().ToList();
-            }
-
-            IList<ClassQueryData> result = new List<ClassQueryData>();
-            foreach (var @class in this.classes)
-            {
-                if (@class.ImplementsInterface(interfaceName))
-                {
-                    result.Add(@class);
-                }
-            }
-
-            this.classes = result;
-            return this;
-        }
-
-        public ClassQuery WithAttribute(Type type)
-        {
-            if (type.BaseType != typeof(Attribute))
-            {
-                throw new ArgumentException("Only attribute types allowed", "type");
-            }
-
-            if (this.classes == null)
-            {
-                this.classes = GetClasses().ToList();
-            }
-
-            IList<ClassQueryData> result = new List<ClassQueryData>();
-            foreach (var @class in this.classes)
-            {
-                if (@class.HasAttributeApplied(type))
-                {
-                    result.Add(@class);
-                }
-            }
-
-            this.classes = result;
-            return this;
-        }
-
-        public ClassQuery WithModifier(int modifier)
-        {
-            if (this.classes == null)
-            {
-                this.classes = GetClasses().ToList();
-            }
-
-            IList<ClassQueryData> result = new List<ClassQueryData>();
-            foreach (var @class in this.classes)
-            {
-                if (@class.HasModifier(modifier))
-                {
-                    result.Add(@class);
-                }
-            }
-
-            this.classes = result;
-            return this;
         }
     }
 }
