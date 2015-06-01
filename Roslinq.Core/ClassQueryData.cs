@@ -1,7 +1,6 @@
 ﻿namespace Roslinq.Core
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.CodeAnalysis;
@@ -29,24 +28,25 @@
         {
             get
             {
-                var x = classSymbol.GetMembers().Where(m => m.Kind == SymbolKind.Method);
-                foreach (var source in x.ToList())
-                {
-                    yield return (IMethodSymbol)source;
-                }
+                return classSymbol.GetMembers().Where(m => m.Kind == SymbolKind.Method).Cast<IMethodSymbol>();
             }
         }
+
         internal bool ImplementsInterface(string interfaceName)
         {
-            if (this.classSymbol.Interfaces != null)
+            if (this.classSymbol.Interfaces == null)
             {
-                if (this.classSymbol.Interfaces.Any())
-                {
-                    if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceName) != null)
-                    {
-                        return true;
-                    }
-                }
+                return false;
+            }
+
+            if (!this.classSymbol.Interfaces.Any())
+            {
+                return false;
+            }
+
+            if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceName) != null)
+            {
+                return true;
             }
 
             return false;
