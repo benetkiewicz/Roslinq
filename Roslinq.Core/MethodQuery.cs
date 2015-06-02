@@ -9,7 +9,7 @@
         private readonly ClassQuery parentClasses;
         private IList<MethodQueryData> methods;
 
-        public MethodQuery(ClassQuery parentClasses)
+        internal MethodQuery(ClassQuery parentClasses)
         {
             this.parentClasses = parentClasses;
         }

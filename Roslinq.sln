@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roslinq.Tests", "Roslinq.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslinqTestTarget", "RoslinqTestTarget\RoslinqTestTarget.csproj", "{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roslinq.Tests.Integration", "Roslinq.Tests.Integration\Roslinq.Tests.Integration.csproj", "{1CB097A6-7425-40C8-A13D-8346ED1291EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0ADB658-FD53-4A04-A378-AD0FB2AA2F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CB097A6-7425-40C8-A13D-8346ED1291EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CB097A6-7425-40C8-A13D-8346ED1291EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CB097A6-7425-40C8-A13D-8346ED1291EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CB097A6-7425-40C8-A13D-8346ED1291EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{66F4E61F-6616-414A-A57F-39858B00E23C}</ProjectGuid>
+    <ProjectGuid>{1CB097A6-7425-40C8-A13D-8346ED1291EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Roslinq.Tests</RootNamespace>
-    <AssemblyName>Roslinq.Tests</AssemblyName>
+    <RootNamespace>Roslinq.Tests.Integration</RootNamespace>
+    <AssemblyName>Roslinq.Tests.Integration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -148,12 +148,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassQueryDataTests.cs" />
-    <Compile Include="InheritanceTests.cs" />
-    <Compile Include="MethodQueryDataTests.cs" />
+    <Compile Include="ClassTests.cs" />
+    <Compile Include="MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

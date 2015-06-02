@@ -1,4 +1,4 @@
-﻿namespace Roslinq.Tests
+﻿namespace Roslinq.Tests.Integration
 {
     using System.Linq;
     using System.Web.Mvc;

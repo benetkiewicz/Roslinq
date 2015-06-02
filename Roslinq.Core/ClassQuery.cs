@@ -11,7 +11,7 @@
         private readonly Project parentProject;
         private IList<ClassQueryData> classes;
 
-        public ClassQuery(Project parentProject)
+        internal ClassQuery(Project parentProject)
         {
             this.parentProject = parentProject;
         }
