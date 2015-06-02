@@ -18,7 +18,7 @@
                 return false;
             }
 
-            if (queriedType.BaseType.Name == type.Name)
+            if (queriedType.BaseType == type)
             {
                 return true;
             }
@@ -45,12 +45,12 @@
                 return false;
             }
 
-            if (classBaseType.Name == type.Name)
+            if (TypeComparer.TypesMatch(classBaseType, type))
             {
                 return true;
             }
 
-            if (classBaseType.Name == typeof(object).Name)
+            if (TypeComparer.TypesMatch(classBaseType, typeof(object)))
             {
                 return false;
             }

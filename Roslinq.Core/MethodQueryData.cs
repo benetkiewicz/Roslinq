@@ -20,7 +20,7 @@
 
         internal bool ReturnsType(Type type)
         {
-            return this.methodSymbol.ReturnType.Name == type.Name;
+            return TypeComparer.TypesMatch(this.methodSymbol.ReturnType, type);
         }
 
         internal bool HasAttributeApplied(Type type)
@@ -28,7 +28,7 @@
             var methodAppliedAttributes = this.methodSymbol.GetAttributes();
             foreach (var methodAppliedAttribute in methodAppliedAttributes)
             {
-                if (methodAppliedAttribute.AttributeClass.Name == type.Name)
+                if (TypeComparer.TypesMatch(methodAppliedAttribute.AttributeClass, type))
                 {
                     return true;
                 }
@@ -46,7 +46,7 @@
 
             foreach (var parameter in this.methodSymbol.Parameters)
             {
-                if (parameter.Type.Name == parameterType.Name)
+                if (TypeComparer.TypesMatch(parameter.Type, parameterType))
                 {
                     return true;
                 }
@@ -54,7 +54,7 @@
                 if (parameter.IsParams)
                 {
                     var arrayType = (IArrayTypeSymbol)parameter.Type;
-                    if (arrayType.ElementType.Name == parameterType.Name)
+                    if (TypeComparer.TypesMatch(arrayType.ElementType, parameterType))
                     {
                         return true;
                     }

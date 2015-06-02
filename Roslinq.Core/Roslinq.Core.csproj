@@ -129,6 +129,7 @@
     <Compile Include="ProjectQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferencesQuery.cs" />
+    <Compile Include="TypeComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

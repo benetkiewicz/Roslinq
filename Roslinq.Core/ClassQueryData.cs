@@ -44,7 +44,7 @@
                 return false;
             }
 
-            if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceType.Name) != null)
+            if (this.classSymbol.Interfaces.FirstOrDefault(i => TypeComparer.TypesMatch(i, interfaceType)) != null)
             {
                 return true;
             }
@@ -57,7 +57,7 @@
             var classAppliedAttributes = this.classSymbol.GetAttributes();
             foreach (var methodAppliedAttribute in classAppliedAttributes)
             {
-                if (methodAppliedAttribute.AttributeClass.Name == type.Name)
+                if (TypeComparer.TypesMatch(methodAppliedAttribute.AttributeClass, type))
                 {
                     return true;
                 }

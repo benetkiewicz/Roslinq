@@ -124,6 +124,7 @@
     <Compile Include="InheritanceTests.cs" />
     <Compile Include="MethodQueryDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeComparisonTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
