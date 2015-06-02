@@ -42,7 +42,7 @@
         public void QueryClassesShouldReturnClassImplementingInterface()
         {
             var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
-            var classes = codeQuery.Classes.ImplementingInterface("IController").Execute();
+            var classes = codeQuery.Classes.ImplementingInterface(typeof(IController)).Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
             Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.Controllers.AdminController"));

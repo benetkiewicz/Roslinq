@@ -50,7 +50,7 @@ namespace Roslinq.Tests
             var barClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[0];
             var barClassSymbolInfo = semanticModel.GetDeclaredSymbol(barClassSyntax);
             var classQuery = new ClassQueryData((INamedTypeSymbol)barClassSymbolInfo);
-            Assert.True(classQuery.ImplementsInterface("IDisposable"));
+            Assert.True(classQuery.ImplementsInterface(typeof(IDisposable)));
         }
 
         [Test]

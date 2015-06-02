@@ -51,11 +51,17 @@
         /// <summary>
         /// Filter classes by interface they implement.
         /// </summary>
-        /// <param name="interfaceName">Name of the interface.</param>
-        public ClassQuery ImplementingInterface(string interfaceName)
+        /// <param name="interfaceType">Name of the interface.</param>
+        /// <exception cref="ArgumentException">If the type is not interface type.</exception>
+        public ClassQuery ImplementingInterface(Type interfaceType)
         {
+            if (!interfaceType.IsInterface)
+            {
+                throw new ArgumentException("Only interface types allowed", "interfaceType");
+            }
+
             EnsureClassesExist();
-            this.Filter(x => x.ImplementsInterface(interfaceName));
+            this.Filter(x => x.ImplementsInterface(interfaceType));
             return this;
         }
 

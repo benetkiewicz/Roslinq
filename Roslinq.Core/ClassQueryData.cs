@@ -32,7 +32,7 @@
             }
         }
 
-        internal bool ImplementsInterface(string interfaceName)
+        internal bool ImplementsInterface(Type interfaceType)
         {
             if (this.classSymbol.Interfaces == null)
             {
@@ -44,7 +44,7 @@
                 return false;
             }
 
-            if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceName) != null)
+            if (this.classSymbol.Interfaces.FirstOrDefault(i => i.Name == interfaceType.Name) != null)
             {
                 return true;
             }
