@@ -1,11 +1,8 @@
 ﻿namespace Roslinq.Tests
 {
     using System;
-    using System.Linq;
-    using System.Web.Mvc;
     using Core;
     using NUnit.Framework;
-    using RoslinqTestTarget.Controllers;
 
     [TestFixture]
     public class InheritanceTests
@@ -13,13 +10,13 @@
         [Test]
         public void DirectInheritanceTest()
         {
-            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(int), typeof(object)));
+            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(ArgumentException), typeof(SystemException)));
         }
 
         [Test]
         public void IndirectInheritanceTest()
         {
-            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(AdminReportingController), typeof(Controller)));
+            Assert.IsTrue(InheritanceHelper.InheritsFrom(typeof(ArgumentException), typeof(object)));
         }
 
         [Test]
