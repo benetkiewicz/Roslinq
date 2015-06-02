@@ -15,6 +15,9 @@
             this.project = workspace.OpenProjectAsync(projectPath).Result;
         }
 
+        /// <summary>
+        /// Entry point for creating and executing class queries.
+        /// </summary>
         public ClassQuery Classes
         {
             get

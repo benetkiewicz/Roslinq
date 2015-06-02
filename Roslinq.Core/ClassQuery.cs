@@ -16,6 +16,9 @@
             this.parentProject = parentProject;
         }
 
+        /// <summary>
+        /// Entry point for creating and executing method queries.
+        /// </summary>
         public MethodQuery Methods
         {
             get
@@ -24,12 +27,20 @@
             }
         }
 
+        /// <summary>
+        /// Executes the query with all previously applied filters.
+        /// </summary>
+        /// <returns>The list of <see cref="ClassQueryData"/></returns>
         public IList<ClassQueryData> Execute()
         {
             EnsureClassesExist();
             return this.classes;
         }
 
+        /// <summary>
+        /// Filter classes by type they inherit from (directly or indirectly).
+        /// </summary>
+        /// <param name="type">The type that class inherits from.</param>
         public ClassQuery InheritingFrom(Type type)
         {
             EnsureClassesExist();
@@ -37,6 +48,10 @@
             return this;
         }
 
+        /// <summary>
+        /// Filter classes by interface they implement.
+        /// </summary>
+        /// <param name="interfaceName">Name of the interface.</param>
         public ClassQuery ImplementingInterface(string interfaceName)
         {
             EnsureClassesExist();
@@ -44,6 +59,11 @@
             return this;
         }
 
+        /// <summary>
+        /// Filter classes by attribute thay have applied.
+        /// </summary>
+        /// <param name="type">Attribute type.</param>
+        /// <exception cref="ArgumentException">If the type is not attribute type.</exception>
         public ClassQuery WithAttribute(Type type)
         {
             if (!InheritanceHelper.InheritsFrom(type, typeof(Attribute)))
@@ -56,6 +76,10 @@
             return this;
         }
 
+        /// <summary>
+        /// Filter classes by modifier they have applied.
+        /// </summary>
+        /// <param name="modifier"><see cref="Modifiers.Class"/> access modifier.</param>
         public ClassQuery WithModifier(int modifier)
         {
             EnsureClassesExist();

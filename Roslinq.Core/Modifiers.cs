@@ -2,6 +2,9 @@
 {
     public static class Modifiers
     {
+        /// <summary>
+        /// Class modifiers constants.
+        /// </summary>
         public static class Class
         {
             public const int Public = 1;
@@ -12,7 +15,10 @@
             public const int Sealed = 6;
             public const int Abstract = 7;
         }
-
+        
+        /// <summary>
+        /// Method modifiers constants.
+        /// </summary>
         public static class Method
         {
             public const int Public = 1;
