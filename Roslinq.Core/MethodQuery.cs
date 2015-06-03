@@ -36,6 +36,15 @@
         }
 
         /// <summary>
+        /// Filter methods by type they return.
+        /// </summary>
+        /// <typeparam name="T">The type of value that method returns.</typeparam>
+        public MethodQuery ReturningType<T>()
+        {
+            return this.ReturningType(typeof(T));
+        }
+
+        /// <summary>
         /// Filter methods by parameter type they take.
         /// </summary>
         /// <param name="parameterType">The type of paramter that method takes.</param>
@@ -45,7 +54,16 @@
             this.Filter(x => x.HasParameterType(parameterType));
             return this;
         }
-        
+
+        /// <summary>
+        /// Filter methods by parameter type they take.
+        /// </summary>
+        /// <typeparam name="T">The type of paramter that method takes.</typeparam>
+        public MethodQuery WithParameterType<T>()
+        {
+            return this.WithParameterType(typeof(T));
+        }
+
         /// <summary>
         /// Filter methods by modifier they have applied.
         /// </summary>

@@ -49,9 +49,18 @@
         }
 
         /// <summary>
+        /// Filter classes by type they inherit from (directly or indirectly).
+        /// </summary>
+        /// <typeparam name="T">The type that class inherits from.</typeparam>
+        public ClassQuery InheritingFrom<T>()
+        {
+            return this.InheritingFrom(typeof(T));
+        }
+
+        /// <summary>
         /// Filter classes by interface they implement.
         /// </summary>
-        /// <param name="interfaceType">Name of the interface.</param>
+        /// <param name="interfaceType">Type of the interface.</param>
         /// <exception cref="ArgumentException">If the type is not interface type.</exception>
         public ClassQuery ImplementingInterface(Type interfaceType)
         {
@@ -63,6 +72,16 @@
             EnsureClassesExist();
             this.Filter(x => x.ImplementsInterface(interfaceType));
             return this;
+        }
+
+        /// <summary>
+        /// Filter classes by interface they implement.
+        /// </summary>
+        /// <typeparam name="T">Type of the interface.</typeparam>
+        /// <exception cref="ArgumentException">If the type is not interface type.</exception>
+        public ClassQuery ImplementingInterface<T>()
+        {
+            return this.ImplementingInterface(typeof(T));
         }
 
         /// <summary>
@@ -80,6 +99,16 @@
             EnsureClassesExist();
             this.Filter(x => x.HasAttributeApplied(type));
             return this;
+        }
+
+        /// <summary>
+        /// Filter classes by attribute thay have applied.
+        /// </summary>
+        /// <typeparam name="T">Attribute type.</typeparam>
+        /// <exception cref="ArgumentException">If the type is not attribute type.</exception>
+        public ClassQuery WithAttribute<T>()
+        {
+            return this.WithAttribute(typeof(T));
         }
 
         /// <summary>
