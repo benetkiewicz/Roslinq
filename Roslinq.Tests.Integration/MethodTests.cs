@@ -6,12 +6,19 @@
     using NUnit.Framework;
     using RoslinqTestTarget.Models;
 
+    [TestFixture]
     public class MethodTests
     {
+        private ProjectQuery codeQuery;
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            this.codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
+        }
+
         [Test]
         public void ContactMethodFromHomeControllerShouldBeRecognized()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var methods = codeQuery.Classes.Methods.Execute();
             Assert.IsNotNull(methods);
             Assert.IsTrue(methods.Any());
@@ -21,7 +28,6 @@
         [Test]
         public void MethodReturningPartialFromHomeControllerShouldBeRecognized()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var methods = codeQuery.Classes.Methods.ReturningType(typeof(PartialViewResult)).Execute();
             Assert.IsNotNull(methods);
             Assert.IsTrue(methods.Any());
@@ -31,7 +37,6 @@
         [Test]
         public void MethodWithModelInputParamShouldBeRecognized()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var methods = codeQuery.Classes.Methods.WithParameterType(typeof(SerializableModel)).Execute();
             Assert.IsNotNull(methods);
             Assert.IsTrue(methods.Any());
@@ -41,7 +46,6 @@
         [Test]
         public void PrivateStaticMethodShouldBeFound()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var methods = codeQuery.Classes.Methods
                 .WithModifier(Modifiers.Method.Static)
                 .WithModifier(Modifiers.Method.Private)

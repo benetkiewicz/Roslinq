@@ -9,10 +9,16 @@
     [TestFixture]
     public class ClassTests
     {
+        private ProjectQuery codeQuery;
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            this.codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
+        }
+
         [Test]
         public void DirectClassInheritanceShouldBeRecognized()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
@@ -22,7 +28,6 @@
         [Test]
         public void IndirectClassInheritanceShouldBeRecognized()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var controllers = codeQuery.Classes.InheritingFrom(typeof(Controller)).Execute();
             Assert.IsNotNull(controllers);
             Assert.IsTrue(controllers.Any());
@@ -32,7 +37,6 @@
         [Test]
         public void QueryClassesShouldReturnAllClasses()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var classes = codeQuery.Classes.Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
@@ -41,7 +45,6 @@
         [Test]
         public void QueryClassesShouldReturnClassImplementingInterface()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var classes = codeQuery.Classes.ImplementingInterface(typeof(IController)).Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
@@ -51,7 +54,6 @@
         [Test]
         public void QueryClassesShouldReturnClassWithAttributeApplied()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var classes = codeQuery.Classes.WithAttribute(typeof(SerializableAttribute)).Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
@@ -61,7 +63,6 @@
         [Test]
         public void QueryClassesShouldReturnClassWithInternalModifier()
         {
-            var codeQuery = new ProjectQuery(@"..\..\..\RoslinqTestTarget\RoslinqTestTarget.csproj");
             var classes = codeQuery.Classes.WithModifier(Modifiers.Class.Internal).Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
