@@ -34,6 +34,28 @@ namespace Roslinq.Tests
         }
 
         [Test]
+        public void NonTrivialTypesShouldNotMatch()
+        {
+            string sourceCode = @"using System; public class MyException : Exception { }";
+
+            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
+
+            if (compilation.GetDiagnostics().Any())
+            {
+                Assert.Fail("compilation failed");
+            }
+
+            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var interfaceDeclarationSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[0];
+            var interfaceSymbol = semanticModel.GetDeclaredSymbol(interfaceDeclarationSyntax);
+
+            Assert.False(TypeComparer.TypesMatch(interfaceSymbol, typeof(Exception)));
+        }
+
+        [Test]
         public void TypesWithSameNameOnlyShouldNotMatch()
         {
             string sourceCode = @"public interface ICloneable { }";
