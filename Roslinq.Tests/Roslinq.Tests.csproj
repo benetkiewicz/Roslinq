@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassQueryDataTests.cs" />
+    <Compile Include="CompilationTest.cs" />
     <Compile Include="InheritanceTests.cs" />
     <Compile Include="MethodQueryDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

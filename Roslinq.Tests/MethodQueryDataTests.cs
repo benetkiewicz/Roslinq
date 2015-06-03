@@ -1,6 +1,7 @@
 ﻿namespace Roslinq.Tests
 {
     using System;
+    using System.Collections.Immutable;
     using System.Linq;
     using Core;
     using Microsoft.CodeAnalysis;
@@ -9,19 +10,14 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class MethodQueryDataTests
+    public class MethodQueryDataTests : CompilationTest
     {
         [Test]
         public void MethodExecuteTest()
         {
             string sourceCode = @"class Bar { public void Foo() {} }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -33,12 +29,8 @@
         {
             string sourceCode = @"class Bar { public int Foo() { return 0; } }";
 
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -49,13 +41,8 @@
         public void MethodReturningVoidTest()
         {
             string sourceCode = @"class Bar { public void Foo() { } }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -66,17 +53,8 @@
         public void HasAttributeAppliedTest()
         {
             string sourceCode = @"using System; class Bar { [Obsolete] public void Foo() { } }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -87,17 +65,8 @@
         public void HasParameterTypeTest()
         {
             string sourceCode = @"using System; class Bar { public int Foo(int a) { return a+1; } }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -109,17 +78,8 @@
         public void HasParameterTypeParamsTest()
         {
             string sourceCode = @"using System; class Bar { public int Foo(params int[] a) { return 0; } }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
@@ -131,17 +91,8 @@
         public void HasModifierTest()
         {
             string sourceCode = @"using System; class Bar { public virtual int Foo(params int[] a) { return 0; } }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);

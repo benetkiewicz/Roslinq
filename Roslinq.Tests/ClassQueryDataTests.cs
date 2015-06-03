@@ -13,19 +13,14 @@ namespace Roslinq.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class ClassQueryDataTests
+    public class ClassQueryDataTests : CompilationTest
     {
         [Test]
         public void InheritsFromTest()
         {
             string sourceCode = @"class Bar : object {}";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var barClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[0];
             var barClassSymbolInfo = semanticModel.GetDeclaredSymbol(barClassSyntax);
             var classQuery = new ClassQueryData((INamedTypeSymbol)barClassSymbolInfo);
@@ -36,17 +31,8 @@ namespace Roslinq.Tests
         public void ImplementsInterfaceTest()
         {
             string sourceCode = @"using System; class Bar : IDisposable { public void Dispose() {} }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var barClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[0];
             var barClassSymbolInfo = semanticModel.GetDeclaredSymbol(barClassSyntax);
             var classQuery = new ClassQueryData((INamedTypeSymbol)barClassSymbolInfo);
@@ -57,17 +43,8 @@ namespace Roslinq.Tests
         public void HasAttributeAppliedTest()
         {
             string sourceCode = @"using System; [Serializable] class Bar { }";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors");
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var barClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[0];
             var barClassSymbolInfo = semanticModel.GetDeclaredSymbol(barClassSyntax);
             var classQueryData = new ClassQueryData(barClassSymbolInfo);
@@ -78,17 +55,8 @@ namespace Roslinq.Tests
         public void HasModifier()
         {
             string sourceCode = @"using System; class Bar { private sealed class Foo { } } ";
-
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-            var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
-            if (compilation.GetDeclarationDiagnostics().Any())
-            {
-                Assert.Fail("compile errors: " + compilation.GetDeclarationDiagnostics()[0].GetMessage());
-            }
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree, false);
+            var semanticModel = CompileAndGetSymanticModel(sourceCode);
+            var syntaxTree = semanticModel.SyntaxTree;
             var fooClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[1];
             var fooClassSymbol = semanticModel.GetDeclaredSymbol(fooClassSyntax);
             var classQueryData = new ClassQueryData(fooClassSymbol);
