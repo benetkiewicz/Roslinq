@@ -19,7 +19,7 @@ var result = codeQuery
     .Methods
     .WithModifier(Modifiers.Methods.Static)
     .WithModifier(Modifiers.Methods.Private)
-    .WithParameterType(typeof(int))
+    .WithParameterType<int>()
     .Execute();
 ```
 
@@ -28,7 +28,7 @@ HTTP POST handlers in MVC Controllers:
 ``` csharp
 var codeQuery = new ProjectQuery(@"path\to\RoslinqTestTarget.csproj");
 var postControllerActions = codeQuery
-    .Classes.InheritingFrom(typof(Controller))
-    .Methods.WithAttribute(typeof(HttpPostAttribute))
+    .Classes.InheritingFrom<Controller>()
+    .Methods.WithAttribute<HttpPostAttribute>()
     .Execute();
 ```
