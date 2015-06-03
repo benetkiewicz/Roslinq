@@ -3,7 +3,7 @@
     using System;
     using Microsoft.CodeAnalysis;
 
-    public class InheritanceHelper
+    internal class InheritanceHelper
     {
         /// <summary>
         /// Check if a given type directly or indirectly iherits from other type.
@@ -11,7 +11,7 @@
         /// <param name="queriedType">Type which base type is being checked</param>
         /// <param name="type">Type which is potentially a base type</param>
         /// <returns>True if queried type inherits from type, false otherwise.</returns>
-        public static bool InheritsFrom(Type queriedType, Type type)
+        internal static bool InheritsFrom(Type queriedType, Type type)
         {
             if (queriedType.BaseType == null)
             {
@@ -37,7 +37,7 @@
         /// <param name="queriedType">Type which base type is being checked</param>
         /// <param name="type">Type which is potentially a base type</param>
         /// <returns>True if queried type inherits from type, false otherwise.</returns>
-        public static bool InheritsFrom(INamedTypeSymbol queriedType, Type type)
+        internal static bool InheritsFrom(INamedTypeSymbol queriedType, Type type)
         {
             var classBaseType = queriedType.BaseType;
             if (classBaseType == null)

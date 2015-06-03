@@ -3,9 +3,9 @@
     using System;
     using Microsoft.CodeAnalysis;
 
-    public class TypeComparer
+    internal class TypeComparer
     {
-        public static bool TypesMatch(ITypeSymbol typeSymbol, Type type)
+        internal static bool TypesMatch(ITypeSymbol typeSymbol, Type type)
         {
             if (typeSymbol.ContainingNamespace != null)
             {
