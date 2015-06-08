@@ -6,19 +6,19 @@
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.MSBuild;
 
-    public class ProjectQuery
+    public class SolutionQuery
     {
-        private readonly Project project;
-
-        public ProjectQuery(string projectPath)
+        private readonly Solution solution;
+        public SolutionQuery(string solutionPath)
         {
             MSBuildWorkspace workspace = MSBuildWorkspace.Create();
-            this.project = workspace.OpenProjectAsync(projectPath).Result;
+            this.solution = workspace.OpenSolutionAsync(solutionPath).Result;
         }
 
         /// <summary>
         /// Entry point for creating and executing class queries.
         /// </summary>
+        /// <remarks>Queries over all project classes that are part of the solution.</remarks>
         public ClassQuery Classes
         {
             get
@@ -37,15 +37,18 @@
 
         private IEnumerable<INamedTypeSymbol> GetClassSymbols()
         {
-            foreach (var document in this.project.Documents)
+            foreach (var project in this.solution.Projects)
             {
-                var model = document.GetSemanticModelAsync().Result;
-                var syntaxTree = model.SyntaxTree;
-                var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
-                foreach (var classSyntaxNode in classSyntaxNodes)
+                foreach (var document in project.Documents)
                 {
-                    var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
-                    yield return classSymbol;
+                    var model = document.GetSemanticModelAsync().Result;
+                    var syntaxTree = model.SyntaxTree;
+                    var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
+                    foreach (var classSyntaxNode in classSyntaxNodes)
+                    {
+                        var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
+                        yield return classSymbol;
+                    }
                 }
             }
         }

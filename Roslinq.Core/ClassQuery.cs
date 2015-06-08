@@ -3,17 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class ClassQuery
     {
-        private readonly Project parentProject;
         private IList<ClassQueryData> classes;
 
-        internal ClassQuery(Project parentProject)
+        internal ClassQuery(IList<ClassQueryData> classes)
         {
-            this.parentProject = parentProject;
+            this.classes = classes;
         }
 
         /// <summary>
@@ -33,7 +30,6 @@
         /// <returns>The list of <see cref="ClassQueryData"/></returns>
         public IList<ClassQueryData> Execute()
         {
-            EnsureClassesExist();
             return this.classes;
         }
 
@@ -43,7 +39,6 @@
         /// <param name="type">The type that class inherits from.</param>
         public ClassQuery InheritingFrom(Type type)
         {
-            EnsureClassesExist();
             this.Filter(x => x.InheritsFrom(type));
             return this;
         }
@@ -69,7 +64,6 @@
                 throw new ArgumentException("Only interface types allowed", "interfaceType");
             }
 
-            EnsureClassesExist();
             this.Filter(x => x.ImplementsInterface(interfaceType));
             return this;
         }
@@ -96,7 +90,6 @@
                 throw new ArgumentException("Only attribute types allowed", "type");
             }
 
-            EnsureClassesExist();
             this.Filter(x => x.HasAttributeApplied(type));
             return this;
         }
@@ -117,7 +110,6 @@
         /// <param name="modifier"><see cref="Modifiers.Class"/> access modifier.</param>
         public ClassQuery WithModifier(int modifier)
         {
-            EnsureClassesExist();
             this.Filter(x => x.HasModifier(modifier));
             return this;
         }
@@ -126,38 +118,6 @@
         {
             var result = this.classes.Where(predicate).ToList();
             this.classes = result;
-        }
-
-        private void EnsureClassesExist()
-        {
-            if (this.classes == null)
-            {
-                this.classes = GetClasses().ToList();
-            }
-        }
-
-        private IEnumerable<ClassQueryData> GetClasses()
-        {
-            foreach (var namedTypeSymbol in GetClassSymbols())
-            {
-                yield return new ClassQueryData(namedTypeSymbol);
-            }
-        }
-
-        private IEnumerable<INamedTypeSymbol> GetClassSymbols()
-        {
-            this.classes = new List<ClassQueryData>();
-            foreach (var document in this.parentProject.Documents)
-            {
-                var model = document.GetSemanticModelAsync().Result;
-                var syntaxTree = model.SyntaxTree;
-                var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
-                foreach (var classSyntaxNode in classSyntaxNodes)
-                {
-                    var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
-                    yield return classSymbol;
-                }
-            }
         }
     }
 }
