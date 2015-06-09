@@ -9,7 +9,7 @@
     {
         private readonly INamedTypeSymbol classSymbol;
 
-        public ClassQueryData(INamedTypeSymbol clasSymbol)
+        internal ClassQueryData(INamedTypeSymbol clasSymbol)
         {
             this.classSymbol = clasSymbol;
         }

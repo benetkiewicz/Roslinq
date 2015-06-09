@@ -8,7 +8,7 @@
     {
         private readonly IMethodSymbol methodSymbol;
 
-        public MethodQueryData(IMethodSymbol methodSymbol)
+        internal MethodQueryData(IMethodSymbol methodSymbol)
         {
             this.methodSymbol = methodSymbol;
         }
