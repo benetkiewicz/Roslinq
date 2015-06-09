@@ -6,12 +6,11 @@
 
     public class MethodQuery
     {
-        private readonly ClassQuery parentClasses;
         private IList<MethodQueryData> methods;
 
-        internal MethodQuery(ClassQuery parentClasses)
+        internal MethodQuery(IList<MethodQueryData> methods)
         {
-            this.parentClasses = parentClasses;
+            this.methods = methods;
         }
 
         /// <summary>
@@ -20,7 +19,6 @@
         /// <returns>The list of <see cref="MethodQueryData"/></returns>
         public IList<MethodQueryData> Execute()
         {
-            EnsureMethodsExist();
             return this.methods;
         }
 
@@ -30,7 +28,6 @@
         /// <param name="type">The type of value that method returns.</param>
         public MethodQuery ReturningType(Type type)
         {
-            EnsureMethodsExist();
             Filter(x => x.ReturnsType(type));
             return this;
         }
@@ -50,7 +47,6 @@
         /// <param name="parameterType">The type of paramter that method takes.</param>
         public MethodQuery WithParameterType(Type parameterType)
         {
-            EnsureMethodsExist();
             this.Filter(x => x.HasParameterType(parameterType));
             return this;
         }
@@ -71,7 +67,6 @@
         /// <returns></returns>
         public MethodQuery WithModifier(int modifier)
         {
-            EnsureMethodsExist();
             this.Filter(x => x.HasModifier(modifier));
             return this;
         }
@@ -80,25 +75,6 @@
         {
             var result = this.methods.Where(predicate).ToList();
             this.methods = result;
-        }
-
-        private void EnsureMethodsExist()
-        {
-            if (this.methods == null)
-            {
-                this.methods = GetMethods().ToList();
-            }
-        }
-
-        private IEnumerable<MethodQueryData> GetMethods()
-        {
-            foreach (var classQueryData in parentClasses.Execute())
-            {
-                foreach (var methodSymbol in classQueryData.Methods)
-                {
-                    yield return new MethodQueryData(methodSymbol);
-                }
-            }
         }
     }
 }

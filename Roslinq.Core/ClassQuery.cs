@@ -20,7 +20,18 @@
         {
             get
             {
-                return new MethodQuery(this);
+                return new MethodQuery(GetMethods().ToList());
+            }
+        }
+
+        private IEnumerable<MethodQueryData> GetMethods()
+        {
+            foreach (var @class in this.classes)
+            {
+                foreach (var methodSymbol in @class.Methods)
+                {
+                    yield return new MethodQueryData(methodSymbol);
+                }
             }
         }
 
