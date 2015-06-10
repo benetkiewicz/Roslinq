@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Roslinq.Tests
 {
-    using Core;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;

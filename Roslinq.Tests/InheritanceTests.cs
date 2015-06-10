@@ -1,7 +1,6 @@
 ﻿namespace Roslinq.Tests
 {
     using System;
-    using Core;
     using NUnit.Framework;
 
     [TestFixture]

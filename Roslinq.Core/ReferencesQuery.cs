@@ -1,4 +1,4 @@
-﻿namespace Roslinq.Core
+﻿namespace Roslinq
 {
     public class ReferencesQuery
     {

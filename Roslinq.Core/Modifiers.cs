@@ -1,4 +1,4 @@
-﻿namespace Roslinq.Core
+﻿namespace Roslinq
 {
     /// <summary>
     /// Class modifiers constants.

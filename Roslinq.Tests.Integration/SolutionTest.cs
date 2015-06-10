@@ -1,6 +1,5 @@
 ﻿namespace Roslinq.Tests.Integration
 {
-    using Core;
     using NUnit.Framework;
 
     public class SolutionTest

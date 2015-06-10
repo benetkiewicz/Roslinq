@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using System.Web.Mvc;
-    using Core;
     using NUnit.Framework;
     using RoslinqTestTarget.Models;
 

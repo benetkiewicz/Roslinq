@@ -7,8 +7,8 @@
     <ProjectGuid>{2CE1F7FD-852F-495F-9F45-49A2BEDF2346}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Roslinq.Core</RootNamespace>
-    <AssemblyName>Roslinq.Core</AssemblyName>
+    <RootNamespace>Roslinq</RootNamespace>
+    <AssemblyName>Roslinq</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Roslinq.Core.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Roslinq.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

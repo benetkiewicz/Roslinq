@@ -1,4 +1,4 @@
-﻿namespace Roslinq.Core
+﻿namespace Roslinq
 {
     using System.Collections.Generic;
     using System.Linq;
