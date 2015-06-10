@@ -17,8 +17,8 @@ var codeQuery = new ProjectQuery(@"path\to\RoslinqTestTarget.csproj");
 var result = codeQuery
     .Classes
     .Methods
-    .WithModifier(Modifiers.Methods.Static)
-    .WithModifier(Modifiers.Methods.Private)
+    .WithModifier(MethodModifier.Static)
+    .WithModifier(MethodModifier.Private)
     .WithParameterType<int>()
     .Execute();
 ```
