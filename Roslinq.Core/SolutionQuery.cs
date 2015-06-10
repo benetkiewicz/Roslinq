@@ -16,6 +16,17 @@
         }
 
         /// <summary>
+        /// Entry point for creating and executing project queries.
+        /// </summary>
+        public ProjectQuery Projects
+        {
+            get
+            {
+                return new ProjectQuery(GetProjects().ToList());
+            }
+        }
+
+        /// <summary>
         /// Entry point for creating and executing class queries.
         /// </summary>
         /// <remarks>Queries over all project classes that are part of the solution.</remarks>
@@ -24,6 +35,14 @@
             get
             {
                 return new ClassQuery(GetClasses().ToList());
+            }
+        }
+
+        private IEnumerable<ProjectQueryData> GetProjects()
+        {
+            foreach (var project in this.solution.Projects)
+            {
+                yield return new ProjectQueryData(project);
             }
         }
 

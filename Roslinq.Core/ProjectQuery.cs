@@ -2,19 +2,35 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.MSBuild;
 
     public class ProjectQuery
     {
-        private readonly Project project;
+        private readonly IList<ProjectQueryData> projects;
 
+        internal ProjectQuery(IList<ProjectQueryData> projects)
+        {
+            this.projects = projects;
+        }
+
+        /// <summary>
+        /// Creates new instance of ProjectQuery based on a project stored in given location on disk.
+        /// </summary>
+        /// <param name="projectPath">Full path to project location on disk.</param>
         public ProjectQuery(string projectPath)
         {
             MSBuildWorkspace workspace = MSBuildWorkspace.Create();
-            this.project = workspace.OpenProjectAsync(projectPath).Result;
+            this.projects = new List<ProjectQueryData> {new ProjectQueryData(workspace.OpenProjectAsync(projectPath).Result)};
         }
+
+        /// <summary>
+        /// Executes the query with all previously applied filters.
+        /// </summary>
+        /// <returns>The list of <see cref="ProjectQueryData"/></returns>
+        public IList<ProjectQueryData> Execute()
+        {
+            return this.projects;
+        } 
 
         /// <summary>
         /// Entry point for creating and executing class queries.
@@ -29,23 +45,12 @@
 
         private IEnumerable<ClassQueryData> GetClasses()
         {
-            foreach (var namedTypeSymbol in GetClassSymbols())
-            {
-                yield return new ClassQueryData(namedTypeSymbol);
-            }
-        }
 
-        private IEnumerable<INamedTypeSymbol> GetClassSymbols()
-        {
-            foreach (var document in this.project.Documents)
+            foreach (var p in this.projects)
             {
-                var model = document.GetSemanticModelAsync().Result;
-                var syntaxTree = model.SyntaxTree;
-                var classSyntaxNodes = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
-                foreach (var classSyntaxNode in classSyntaxNodes)
+                foreach (var namedTypeSymbol in p.Classes)
                 {
-                    var classSymbol = (INamedTypeSymbol)model.GetDeclaredSymbol(classSyntaxNode);
-                    yield return classSymbol;
+                    yield return new ClassQueryData(namedTypeSymbol);
                 }
             }
         }
