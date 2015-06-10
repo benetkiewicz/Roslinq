@@ -1,33 +1,30 @@
 ﻿namespace Roslinq.Core
 {
-    public static class Modifiers
+    /// <summary>
+    /// Class modifiers constants.
+    /// </summary>
+    public enum ClassModifier
     {
-        /// <summary>
-        /// Class modifiers constants.
-        /// </summary>
-        public static class Class
-        {
-            public const int Public = 1;
-            public const int Protected = 2;
-            public const int Private = 3;
-            public const int Internal = 4;
-            public const int Static = 5;
-            public const int Sealed = 6;
-            public const int Abstract = 7;
-        }
-        
-        /// <summary>
-        /// Method modifiers constants.
-        /// </summary>
-        public static class Method
-        {
-            public const int Public = 1;
-            public const int Protected = 2;
-            public const int Private = 3;
-            public const int Internal = 4;
-            public const int Static = 5;
-            public const int Abstract = 7;
-            public const int Virtual = 8;
-        }
+        Public = 1,
+        Protected = 2,
+        Private = 3,
+        Internal = 4,
+        Static = 5,
+        Sealed = 6,
+        Abstract = 7
+    }
+
+    /// <summary>
+    /// Method modifiers constants.
+    /// </summary>
+    public enum MethodModifier
+    {
+        Public = 1,
+        Protected = 2,
+        Private = 3,
+        Internal = 4,
+        Static = 5,
+        Abstract = 7,
+        Virtual = 8
     }
 }

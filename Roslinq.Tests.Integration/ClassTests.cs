@@ -63,7 +63,7 @@
         [Test]
         public void QueryClassesShouldReturnClassWithInternalModifier()
         {
-            var classes = codeQuery.Classes.WithModifier(Modifiers.Class.Internal).Execute();
+            var classes = codeQuery.Classes.WithModifier(ClassModifier.Internal).Execute();
             Assert.IsNotNull(classes);
             Assert.IsTrue(classes.Any());
             Assert.IsNotNull(classes.FirstOrDefault(x => x.ClassName == "RoslinqTestTarget.AppCode.InternalLogic"));

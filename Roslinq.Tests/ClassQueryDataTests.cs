@@ -60,8 +60,8 @@ namespace Roslinq.Tests
             var fooClassSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().ToList()[1];
             var fooClassSymbol = semanticModel.GetDeclaredSymbol(fooClassSyntax);
             var classQueryData = new ClassQueryData(fooClassSymbol);
-            Assert.IsTrue(classQueryData.HasModifier(Modifiers.Class.Private));
-            Assert.IsFalse(classQueryData.HasModifier(Modifiers.Class.Protected));
+            Assert.IsTrue(classQueryData.HasModifier(ClassModifier.Private));
+            Assert.IsFalse(classQueryData.HasModifier(ClassModifier.Protected));
         }
     }
 }

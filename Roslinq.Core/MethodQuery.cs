@@ -63,9 +63,9 @@
         /// <summary>
         /// Filter methods by modifier they have applied.
         /// </summary>
-        /// <param name="modifier"><see cref="Modifiers.Method"/> access modifier.</param>
+        /// <param name="modifier"><see cref="Modifiers.MethodModifier"/> access modifier.</param>
         /// <returns></returns>
-        public MethodQuery WithModifier(int modifier)
+        public MethodQuery WithModifier(MethodModifier modifier)
         {
             this.Filter(x => x.HasModifier(modifier));
             return this;

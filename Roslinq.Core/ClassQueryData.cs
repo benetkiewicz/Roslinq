@@ -66,23 +66,23 @@
             return false;
         }
 
-        internal bool HasModifier(int modifier)
+        internal bool HasModifier(ClassModifier modifier)
         {
             switch (modifier)
             {
-                case Modifiers.Class.Private:
+                case ClassModifier.Private:
                     return this.classSymbol.DeclaredAccessibility == Accessibility.Private;
-                case Modifiers.Class.Protected:
+                case ClassModifier.Protected:
                     return this.classSymbol.DeclaredAccessibility == Accessibility.Protected;
-                case Modifiers.Class.Public:
+                case ClassModifier.Public:
                     return this.classSymbol.DeclaredAccessibility == Accessibility.Public;
-                case Modifiers.Class.Internal:
+                case ClassModifier.Internal:
                     return this.classSymbol.DeclaredAccessibility == Accessibility.Internal;
-                case Modifiers.Class.Static:
+                case ClassModifier.Static:
                     return this.classSymbol.IsStatic;
-                case Modifiers.Class.Sealed:
+                case ClassModifier.Sealed:
                     return this.classSymbol.IsSealed;
-                case Modifiers.Class.Abstract:
+                case ClassModifier.Abstract:
                     return this.classSymbol.IsAbstract;
                 default: throw new NotImplementedException(string.Format("Modifier {0} is unknown", modifier));
             }

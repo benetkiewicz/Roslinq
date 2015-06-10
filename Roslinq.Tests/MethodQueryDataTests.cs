@@ -96,8 +96,8 @@
             var fooMethodSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList()[0];
             var fooMethodSymbol = semanticModel.GetDeclaredSymbol(fooMethodSyntax);
             var methodSymbolInfo = new MethodQueryData(fooMethodSymbol);
-            Assert.IsTrue(methodSymbolInfo.HasModifier(Modifiers.Method.Virtual));
-            Assert.IsFalse(methodSymbolInfo.HasModifier(Modifiers.Method.Protected));
+            Assert.IsTrue(methodSymbolInfo.HasModifier(MethodModifier.Virtual));
+            Assert.IsFalse(methodSymbolInfo.HasModifier(MethodModifier.Protected));
         }
     }
 }

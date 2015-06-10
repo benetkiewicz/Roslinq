@@ -118,8 +118,8 @@
         /// <summary>
         /// Filter classes by modifier they have applied.
         /// </summary>
-        /// <param name="modifier"><see cref="Modifiers.Class"/> access modifier.</param>
-        public ClassQuery WithModifier(int modifier)
+        /// <param name="modifier"><see cref="Modifiers.ClassModifier"/> access modifier.</param>
+        public ClassQuery WithModifier(ClassModifier modifier)
         {
             this.Filter(x => x.HasModifier(modifier));
             return this;

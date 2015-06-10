@@ -47,8 +47,8 @@
         public void PrivateStaticMethodShouldBeFound()
         {
             var methods = codeQuery.Classes.Methods
-                .WithModifier(Modifiers.Method.Static)
-                .WithModifier(Modifiers.Method.Private)
+                .WithModifier(MethodModifier.Static)
+                .WithModifier(MethodModifier.Private)
                 .Execute();
             Assert.IsNotNull(methods);
             Assert.AreEqual(1, methods.Count());
