@@ -9,7 +9,8 @@ namespace Roslinq.Tests
     {
         protected SemanticModel CompileAndGetSymanticModel(string sourceCode)
         {
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var mscorlibAssembly = typeof(object).Assembly;
+            var mscorlib = MetadataReference.CreateFromFile(mscorlibAssembly.Location);
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
             var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);

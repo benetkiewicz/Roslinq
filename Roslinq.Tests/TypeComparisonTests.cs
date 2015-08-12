@@ -19,7 +19,8 @@ namespace Roslinq.Tests
         {
             string sourceCode = @"class Bar : object {}";
 
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var mscorlibAssembly = typeof(object).Assembly;
+            var mscorlib = MetadataReference.CreateFromFile(mscorlibAssembly.Location);
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
             var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
@@ -37,7 +38,8 @@ namespace Roslinq.Tests
         {
             string sourceCode = @"using System; public class MyException : Exception { }";
 
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var mscorlibAssembly = typeof(object).Assembly;
+            var mscorlib = MetadataReference.CreateFromFile(mscorlibAssembly.Location);
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
             var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
@@ -59,7 +61,8 @@ namespace Roslinq.Tests
         {
             string sourceCode = @"public interface ICloneable { }";
 
-            var mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+            var mscorlibAssembly = typeof(object).Assembly;
+            var mscorlib = MetadataReference.CreateFromFile(mscorlibAssembly.Location);
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
             var compilation = CSharpCompilation.Create("TestAsm", new[] { syntaxTree }, new[] { mscorlib }, compilationOptions);
