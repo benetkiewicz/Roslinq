@@ -1,4 +1,4 @@
-# Roslinq
+# Roslinq (LINQ to Roslyn)
 Roslinq is a Roslyn based component that enables queries over C# source code.
 
 ## Features
