@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Build.Locator;
     using Microsoft.CodeAnalysis.MSBuild;
 
     public class ProjectQuery
@@ -19,6 +20,7 @@
         /// <param name="projectPath">Full path to project location on disk.</param>
         public ProjectQuery(string projectPath)
         {
+            MSBuildLocator.RegisterDefaults();
             MSBuildWorkspace workspace = MSBuildWorkspace.Create();
             this.projects = new List<ProjectQueryData> {new ProjectQueryData(workspace.OpenProjectAsync(projectPath).Result)};
         }
